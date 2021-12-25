@@ -1,0 +1,12 @@
+{
+  "name": "gpx",
+  "version": "1.0.0",
+  "dependencies": {
+    "cross-env": "5.0.5",
+    "xml2js": "^0.4.23"
+  },
+    "scripts": {
+    "extract": "node index"
+  },
+  "license": "ISC"
+}
