@@ -1,6 +1,8 @@
 const path = require('path');
+const zlib = require('zlib');
 const { promises: fs } = require("fs");
 const parseString = require('xml2js').parseString;
+const compress = require('compress-json').compress;
 
 const reqPath = path.join(__dirname, '../../');
 
@@ -14,9 +16,10 @@ const extractTracks = (gpx) => {
 
   gpx.trk && gpx.trk.forEach(trk => {
     const name = trk.name && trk.name.length > 0 ? trk.name[0] : 'untitled';
-    console.log(`Extracting Tracks from ${name}`);
     let timestamp;
 
+    console.log(`Extracting tracks from ${name}`);
+    
     trk.trkseg.forEach(trkseg => {
       let points = [];
       for (let trkpt of trkseg.trkpt || []) {
@@ -54,31 +57,30 @@ const readFile = async (filePath) => {
         const track = extractTracks(result.gpx);
         resolve(track);
       } else {
-        reject(new Error('Invalid file type.'));
+        reject(new Error(`Can't extract GPX.`));
       }
     });
   });
 };
 
-const readFiles = async (filesPaths) => {
-  const promises = filesPaths.map((filePath) => readFile(filePath));
-  return Promise.all(promises).then((results) => results);
-};
+const readFiles = async (paths) => Promise.all(paths.map((path) => readFile(path))).then((results) => results);
 
 const parseGPX = async () => {
   const directory = './activies';
-  const files = await getFilePaths(directory);
-  const activities = await readFiles(files);
-  fs.writeFile(`${reqPath}output/output.json`, JSON.stringify(activities, null, 4), 'utf8', (err) => {
+  const paths = await getFilePaths(directory);
+  const activities = await readFiles(paths);
+  const data = JSON.stringify(compress({ data: activities }));
+
+  fs.writeFile(`${reqPath}output/output.json`, data , 'utf8', (error) => {
     if (err) {
       console.log('An error occured while writing JSON Object to File.');
-      return console.log(err);
+      return console.log(error);
     }
     console.log(
       `JSON file has been saved as ./output/${documentId}-output.json`
     );
-  }
-);
+  });        
+    
 };
 
 parseGPX();

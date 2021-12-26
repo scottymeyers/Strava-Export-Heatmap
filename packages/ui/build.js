@@ -1,10 +1,10 @@
+const chokidar = require('chokidar');
 const { build } = require('esbuild');
 const { createServer } = require('http-server');
-const chokidar = require('chokidar');
 
 const env = process.env.NODE_ENV;
 
-const runServe = () => {
+const serve = () => {
   const server = createServer({
     autoIndex: false,
     brotli: true,
@@ -18,7 +18,7 @@ const runServe = () => {
   console.log('Server is listen at http://localhost:3000/');
 };
 
-const runBuild = () => {
+const createBuild = () => {
   build({
     bundle: true,
     define: {
@@ -39,13 +39,13 @@ chokidar.watch('./src/**', {
   ignoreInitial: true,
 }).on('all', (event, path) => {
   console.log('✓ ', event, path);
-  runBuild();
+  createBuild();
 }).on('ready', () => {
   console.log('\n========================');
   console.log('➢ Waiting for changes...');
   console.log('========================\n');
-  runServe();
-  runBuild();
+  serve();
+  createBuild();
 });
 
 process.on('warning', (warning) => {

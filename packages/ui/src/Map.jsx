@@ -1,27 +1,46 @@
-import React, { useEffect, Suspense, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { decompress } from 'compress-json'
 import { MapContainer, Polyline, TileLayer } from 'react-leaflet'
 
+const loadingStyles = {
+  alignItems: 'center',
+  background: 'black',
+  color: 'white',
+  display: 'flex',
+  fontFamily: 'monospace',
+  height: '100vh',
+  justifyContent: 'center',
+  left: 0,
+  position: 'fixed',
+  top: 0,
+  width: '100vw',
+  zIndex: 2,
+};
+
 const Map = () => {
-  const center = [40.730610, -73.935242];
   const [activities, setActivities] = useState([]);
 
   useEffect(() => {
     fetch('./output.json')
       .then(response => response.json())
-      .then(data => setActivities(data));
+      .then(data => {
+        const decompressed = decompress(data);
+        setActivities(decompressed.data);
+      });
   }, []);
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <MapContainer center={center} zoom={11} scrollWheelZoom={false} >
-        {/* <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        /> */}
-          <TileLayer
-            attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
-            url='https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'
-          />
+    <>
+      {activities.length === 0 && (
+        <div style={loadingStyles}>
+          <span>Loading...</span>
+        </div>
+      )}
+      <MapContainer style={{zIndex: 1 }} center={[40.730610, -73.935242]} zoom={11} scrollWheelZoom={false} >
+        <TileLayer
+          attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+          url='https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'
+        />
         {activities.map((activity) => {
           const tracks = activity;        
           return tracks.map((track) => {
@@ -29,7 +48,7 @@ const Map = () => {
           })
         })}
       </MapContainer>
-    </Suspense>
+    </>
   )
 };
 
