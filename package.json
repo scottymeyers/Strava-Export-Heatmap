@@ -4,9 +4,11 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "yarn workspace ui build",
-    "extract": "yarn workspace gpx extract",
-    "watch": "yarn workspace ui watch"
+    "build": "yarn workspaces foreach run build",
+    "build:json": "yarn workspace gpx build",
+    "build:ui": "yarn workspace ui build",
+    "watch:ui": "yarn workspace ui watch"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "packageManager": "yarn@3.1.1"
 }
