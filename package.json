@@ -5,9 +5,9 @@
   ],
   "scripts": {
     "build": "yarn workspaces foreach run build",
-    "build:json": "yarn workspace gpx build",
-    "build:ui": "yarn workspace ui build",
-    "watch:ui": "yarn workspace ui watch"
+    "build-json": "yarn workspace gpx build $INIT_CWD/gpx",
+    "build-ui": "yarn workspace ui build",
+    "watch-ui": "yarn workspace ui watch"
   },
   "license": "ISC",
   "packageManager": "yarn@3.1.1"

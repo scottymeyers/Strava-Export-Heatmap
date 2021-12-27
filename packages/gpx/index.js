@@ -5,6 +5,7 @@ const parseString = require('xml2js').parseString;
 const compress = require('compress-json').compress;
 
 const reqPath = path.join(__dirname, '../../');
+const gpxDirectory = process.argv.slice(2)[0];
 
 const extractTracks = (gpx) => {
   if (!gpx.trk) {
@@ -66,9 +67,8 @@ const readFile = async (filePath) => {
 const readFiles = async (paths) => Promise.all(paths.map((path) => readFile(path))).then((results) => results);
 
 const parseGPX = async () => {
-  const directory = './activies';
-  const paths = await getFilePaths(directory);
-  const activities = await readFiles(paths);
+  const paths = await getFilePaths(gpxDirectory);
+  const activities = await readFiles([paths[0]]);
   const data = JSON.stringify(compress({ data: activities }));
 
   fs.writeFile(`${reqPath}output/output.json`, data , 'utf8', (error) => {
@@ -80,7 +80,6 @@ const parseGPX = async () => {
       `JSON file has been saved as ./output/${documentId}-output.json`
     );
   });        
-    
 };
 
 parseGPX();
