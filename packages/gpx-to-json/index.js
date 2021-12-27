@@ -1,5 +1,4 @@
 const path = require('path');
-const zlib = require('zlib');
 const { promises: fs } = require("fs");
 const parseString = require('xml2js').parseString;
 const compress = require('compress-json').compress;
@@ -48,10 +47,9 @@ const getFilePaths = async (directory) => {
   });
 };
 
-const readFile = async (filePath) => {
-  const content = await fs.readFile(filePath, 'utf-8');
+const parseFile = async (fileContent) => {
   return new Promise((resolve, reject) => {
-    parseString(content, (err, result) => {
+    parseString(fileContent, (err, result) => {
       if (err) {
         reject(err);
       } else if (result.gpx) {
@@ -64,14 +62,20 @@ const readFile = async (filePath) => {
   });
 };
 
+const readFile = async (filePath) => {
+  const fileContent = await fs.readFile(filePath, 'utf-8');
+  const parsedFile = await parseFile(fileContent);
+  return parsedFile;
+};
+
 const readFiles = async (paths) => Promise.all(paths.map((path) => readFile(path))).then((results) => results);
 
-const parseGPX = async () => {
+const gpxToJson = async () => {
   const paths = await getFilePaths(gpxDirectory);
   const activities = await readFiles([paths[0]]);
   const data = JSON.stringify(compress({ data: activities }));
 
-  fs.writeFile(`${reqPath}output/output.json`, data , 'utf8', (error) => {
+  fs.writeFile(`${reqPath}json-output/output.json`, data , 'utf8', (error) => {
     if (err) {
       console.log('An error occured while writing JSON Object to File.');
       return console.log(error);
@@ -82,4 +86,4 @@ const parseGPX = async () => {
   });        
 };
 
-parseGPX();
+gpxToJson();

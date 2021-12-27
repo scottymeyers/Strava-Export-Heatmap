@@ -684,9 +684,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gpx@workspace:packages/gpx":
+"gpx-to-json@workspace:packages/gpx-to-json":
   version: 0.0.0-use.local
-  resolution: "gpx@workspace:packages/gpx"
+  resolution: "gpx-to-json@workspace:packages/gpx-to-json"
   dependencies:
     compress-json: ^2.0.1
     cross-env: 5.0.5

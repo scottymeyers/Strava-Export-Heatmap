@@ -5,7 +5,7 @@
   ],
   "scripts": {
     "build": "yarn workspaces foreach run build",
-    "build-json": "yarn workspace gpx build $INIT_CWD/gpx",
+    "build-json": "yarn workspace gpx-to-json build $INIT_CWD/gpx-input",
     "build-ui": "yarn workspace ui build",
     "watch-ui": "yarn workspace ui watch"
   },

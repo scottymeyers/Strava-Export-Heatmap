@@ -1,5 +1,5 @@
 {
-  "name": "gpx",
+  "name": "gpx-to-json",
   "version": "1.0.0",
   "dependencies": {
     "compress-json": "^2.0.1",
