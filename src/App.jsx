@@ -6,7 +6,7 @@ const App = () => {
   const [activities, setActivities] = useState([]);
 
   useEffect(() => {
-    fetch('./output.json')
+    fetch('/activities')
       .then((response) => response.json())
       .then((data) => {
         setActivities(data);

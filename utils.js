@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const { build } = require('esbuild');
+const activities = require('./public/output.json');
 
 module.exports = {
   createBuild: () => {
@@ -20,10 +21,15 @@ module.exports = {
     const app = express();
     const port = 3000;
 
+    app.set('view engine', 'ejs');
     app.use(express.static(path.join(__dirname, 'public')));
 
     app.get('/', (req, res) => {
-      res.send('Hello World!');
+      res.render('index.html');
+    });
+
+    app.get('/activities', (req, res) => {
+      res.json(activities);
     });
 
     app.listen(port, () => {

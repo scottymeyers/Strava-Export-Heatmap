@@ -2,6 +2,7 @@
   "name": "heatmap",
   "version": "1.0.0",
   "dependencies": {
+    "ejs": "^3.1.6",
     "express": "^4.17.2",
     "leaflet": "^1.7.1",
     "react": "^17.0.2",
@@ -18,10 +19,10 @@
     "prettier": "2.5.1"
   },
   "scripts": {
-    "build-ui": "esbuild ./src/App.jsx --bundle --minify --sourcemap --outfile=./public/bundle.js",
     "convert": "node gpx-to-json",
-    "dev": "node watch",
-    "serve": "node gpx-to-json && node serve"
+    "serve": "node gpx-to-json && node serve",
+    "ui-build": "esbuild ./src/App.jsx --bundle --minify --sourcemap --outfile=./public/bundle.js",
+    "ui-watch": "node watch"
   },
   "license": "ISC"
 }
