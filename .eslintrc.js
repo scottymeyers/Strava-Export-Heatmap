@@ -12,7 +12,7 @@ module.exports = {
     },
     ecmaVersion: 13,
   },
-  plugins: ['react'],
+  plugins: ['prettier', 'react'],
   rules: {
     'prettier/prettier': 'error',
   },
