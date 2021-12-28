@@ -128,3 +128,10 @@ dist
 
 # OSX
 .DS_Store
+
+# Project
+activities/*.gpx
+activities/*.gpx.gz
+public/bundle.js
+public/bundle.js.map
+public/output.json
