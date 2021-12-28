@@ -20,10 +20,10 @@
     "prettier": "2.5.1"
   },
   "scripts": {
-    "convert": "node gpx-to-json",
-    "serve": "node gpx-to-json && node serve",
+    "convert": "cd src && node gpx-to-json",
+    "serve": "cd src && node gpx-to-json && node serve",
     "ui-build": "esbuild ./src/App.jsx --bundle --minify --sourcemap --outfile=./public/bundle.js",
-    "ui-watch": "node watch"
+    "ui-watch": "node src/watch"
   },
   "license": "ISC"
 }

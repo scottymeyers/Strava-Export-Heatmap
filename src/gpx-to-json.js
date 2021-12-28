@@ -75,10 +75,10 @@ const readFiles = async (paths) =>
   Promise.all(paths.map((path) => readFile(path))).then((results) => results);
 
 const gpxToJson = async () => {
-  const paths = await getFilePaths('./activities');
+  const paths = await getFilePaths('../activities');
   const data = await readFiles(paths);
   const json = JSON.stringify(data);
-  fs.writeFile('./public/output.json', json, 'utf8', (error) => {
+  fs.writeFile('../public/output.json', json, 'utf8', (error) => {
     if (error) {
       console.log('An error occured while writing JSON Object to File.');
       return console.log(error);
