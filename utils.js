@@ -1,7 +1,8 @@
+const activities = require('./public/output.json');
+const compression = require('compression');
 const express = require('express');
 const path = require('path');
 const { build } = require('esbuild');
-const activities = require('./public/output.json');
 
 module.exports = {
   createBuild: () => {
@@ -22,6 +23,7 @@ module.exports = {
     const port = 3000;
 
     app.set('view engine', 'ejs');
+    app.use(compression());
     app.use(express.static(path.join(__dirname, 'public')));
 
     app.get('/', (req, res) => {
