@@ -18,24 +18,21 @@ module.exports = {
       process.exit(1);
     });
   },
-  serve: () => {
-    const app = express();
-    const port = 3000;
+  createServer: () => {
+    const server = express();
 
-    app.set('view engine', 'ejs');
-    app.use(compression());
-    app.use(express.static(path.join(__dirname, '../public')));
+    server.set('view engine', 'ejs');
+    server.use(compression());
+    server.use(express.static(path.join(__dirname, '../public')));
 
-    app.get('/', (req, res) => {
+    server.get('/', (req, res) => {
       res.render('index.html');
     });
 
-    app.get('/activities', (req, res) => {
+    server.get('/activities', (req, res) => {
       res.json(activities);
     });
 
-    app.listen(port, () => {
-      console.log(`Listening at http://localhost:${port}`);
-    });
+    return server;
   },
 };
