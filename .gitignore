@@ -130,9 +130,6 @@ dist
 .DS_Store
 
 # Project
-activities/*.gpx
-activities/*.gpx.gz
-!activities/example.gpx
-public/bundle.js
-public/bundle.js.map
-public/output.json
+/public/bundle.js
+/public/bundle.js.map
+/public/output.json

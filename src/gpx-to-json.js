@@ -83,7 +83,7 @@ const gpxToJson = async () => {
       console.log('An error occured while writing JSON Object to File.');
       return console.log(error);
     }
-    console.log('JSON file has been saved as ./public/output.json');
+    console.log('JSON file has been saved as ../public/output.json');
   });
 };
 

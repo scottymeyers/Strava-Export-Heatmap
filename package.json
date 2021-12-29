@@ -21,7 +21,7 @@
   },
   "scripts": {
     "convert": "cd src && node gpx-to-json",
-    "serve": "cd src && node gpx-to-json && node serve",
+    "start": "cd src && node serve",
     "ui-build": "esbuild ./src/App.jsx --bundle --minify --sourcemap --outfile=./public/bundle.js",
     "ui-watch": "node src/watch"
   },

@@ -1,23 +1,9 @@
-const activities = require('../public/output.json');
 const compression = require('compression');
 const express = require('express');
+
 const path = require('path');
-const { build } = require('esbuild');
 
 module.exports = {
-  createBuild: () => {
-    build({
-      bundle: true,
-      entryPoints: ['./src/App.jsx'],
-      logLevel: 'info',
-      minify: true,
-      outfile: './public/bundle.js',
-      sourcemap: true,
-    }).catch((err) => {
-      console.log(err);
-      process.exit(1);
-    });
-  },
   createServer: () => {
     const server = express();
 
@@ -30,7 +16,8 @@ module.exports = {
     });
 
     server.get('/activities', (req, res) => {
-      res.json(activities);
+      res.header('Content-Type', 'application/json');
+      res.sendFile(path.join(__dirname, '../public/output.json'));
     });
 
     return server;
