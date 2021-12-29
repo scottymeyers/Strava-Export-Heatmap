@@ -1,5 +1,5 @@
 {
-  "name": "heatmap",
+  "name": "strava-export-heatmap",
   "version": "1.0.0",
   "dependencies": {
     "compression": "^1.7.4",
