@@ -134,3 +134,4 @@ dist
 /public/bundle.js.map
 /public/output.json
 app.yaml
+.gcloudignore
