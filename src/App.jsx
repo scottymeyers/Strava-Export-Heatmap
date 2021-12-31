@@ -2,73 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { MapContainer, Polyline, TileLayer } from 'react-leaflet';
 
-const typeOptions = [
-  {
-    value: '0',
-    label: 'All',
-  },
-
-  {
-    value: '1',
-    label: 'Ride',
-  },
-
-  {
-    value: '4',
-    label: 'Hike',
-  },
-
-  {
-    value: '9',
-    label: 'Run',
-  },
-
-  {
-    value: '10',
-    label: 'Walk',
-  },
-
-  {
-    value: '21',
-    label: 'Canoe',
-  },
-
-  {
-    value: '22',
-    label: 'Kayaking',
-  },
-
-  {
-    value: '23',
-    label: 'Rowing',
-  },
-];
-
-// eslint-disable-next-line react/prop-types
-const SelectType = ({ handleSelect, selected }) => {
-  return (
-    <div
-      style={{
-        background: 'black',
-        position: 'fixed',
-        right: '12px',
-        top: '12px',
-        zIndex: '2',
-      }}
-    >
-      <select onChange={handleSelect}>
-        {typeOptions.map((option) => {
-          const { label, value } = option;
-          return (
-            <option key={value} selected={selected === value} value={value}>
-              {label}
-            </option>
-          );
-        })}
-      </select>
-    </div>
-  );
-};
+import ActivityTypeSelector from './components/ActivityTypeSelector';
 
 const App = () => {
   const [activities, setActivities] = useState([]);
@@ -119,7 +53,7 @@ const App = () => {
         </div>
       )}
       <>
-        <SelectType
+        <ActivityTypeSelector
           handleSelect={(e) => setActivityType(e.target.value)}
           selected={activityType}
         />
