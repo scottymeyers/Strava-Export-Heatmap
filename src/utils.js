@@ -17,7 +17,7 @@ module.exports = {
 
     server.get('/activities', (req, res) => {
       res.header('Content-Type', 'application/json');
-      res.sendFile(path.join(__dirname, '../public/output.json'));
+      res.sendFile(path.join(__dirname, '../public/activities.json'));
     });
 
     return server;

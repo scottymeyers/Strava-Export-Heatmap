@@ -77,12 +77,12 @@ const gpxToJson = async () => {
   const data = await readFiles(paths);
   const flattenedData = data.flatMap((d) => d);
   const json = JSON.stringify(flattenedData);
-  fs.writeFile('../public/output.json', json, 'utf8', (error) => {
+  fs.writeFile('../public/activities.json', json, 'utf8', (error) => {
     if (error) {
       console.log('An error occured while writing JSON Object to File.');
       return console.log(error);
     }
-    console.log('JSON file has been saved as ../public/output.json');
+    console.log('JSON file has been saved as ../public/activities.json');
   });
 };
 

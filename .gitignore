@@ -17,6 +17,6 @@ yarn-error.log*
 # Project
 /public/bundle.js
 /public/bundle.js.map
-/public/output.json
+/public/activities.json
 app.yaml
 .gcloudignore
