@@ -1,12 +1,15 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { MapContainer, Polyline, TileLayer } from 'react-leaflet';
+import debounce from 'lodash.debounce';
 
 import ActivityTypeSelector from './components/ActivityTypeSelector';
+import PolylineColorPicker from './components/PolylineColorPicker';
 
-const App = () => {
+const Map = () => {
   const [activities, setActivities] = useState([]);
   const [activityType, setActivityType] = useState('1');
+  const [polylineColor, setPolylineColor] = useState('#ff69bf');
 
   useEffect(() => {
     fetch('/activities')
@@ -22,41 +25,39 @@ const App = () => {
         return {
           color:
             activityType === '0' || activityType === activity.type[0]
-              ? '#fF69BF'
+              ? polylineColor
               : 'transparent',
           ...activity,
         };
       }),
-    [activities, activityType]
+    [activities, activityType, polylineColor]
+  );
+
+  const handleColorChange = useCallback(
+    debounce((color) => {
+      setPolylineColor(color);
+    }, 500),
+    []
   );
 
   return (
     <>
       {activities.length === 0 && (
-        <div
-          style={{
-            alignItems: 'center',
-            background: 'black',
-            color: 'white',
-            display: 'flex',
-            fontFamily: 'monospace',
-            height: '100vh',
-            justifyContent: 'center',
-            left: 0,
-            position: 'fixed',
-            top: 0,
-            width: '100vw',
-            zIndex: 3,
-          }}
-        >
+        <div className="loading">
           <span>Loading Activities...</span>
         </div>
       )}
       <>
-        <ActivityTypeSelector
-          handleSelect={(e) => setActivityType(e.target.value)}
-          selected={activityType}
-        />
+        <div className="tools">
+          <ActivityTypeSelector
+            handleSelect={(e) => setActivityType(e.target.value)}
+            selected={activityType}
+          />
+          <PolylineColorPicker
+            handleChange={(e) => handleColorChange(e.target.value)}
+            selected={polylineColor}
+          />
+        </div>
         <MapContainer
           style={{ zIndex: 1 }}
           center={[40.73061, -73.935242]}
@@ -85,4 +86,4 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Map />, document.getElementById('root'));

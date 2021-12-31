@@ -39,16 +39,9 @@ const options = [
 
 const ActivityTypeSelector = ({ handleSelect, selected }) => {
   return (
-    <div
-      style={{
-        background: 'black',
-        position: 'fixed',
-        right: '12px',
-        top: '12px',
-        zIndex: '2',
-      }}
-    >
-      <select onChange={handleSelect}>
+    <div className="tool">
+      <label htmlFor="activityTypeSelector">Activity type</label>
+      <select id="activityTypeSelector" onChange={handleSelect}>
         {options.map((option) => {
           const { label, value } = option;
           return (
