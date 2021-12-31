@@ -1,45 +1,14 @@
 import React from 'react';
 
-const typeOptions = [
-  {
-    value: '0',
-    label: 'All',
-  },
-
-  {
-    value: '1',
-    label: 'Ride',
-  },
-
-  {
-    value: '4',
-    label: 'Hike',
-  },
-
-  {
-    value: '9',
-    label: 'Run',
-  },
-
-  {
-    value: '10',
-    label: 'Walk',
-  },
-
-  {
-    value: '21',
-    label: 'Canoe',
-  },
-
-  {
-    value: '22',
-    label: 'Kayaking',
-  },
-
-  {
-    value: '23',
-    label: 'Rowing',
-  },
+const options = [
+  { label: 'All', value: '0' },
+  { label: 'Ride', value: '1' },
+  { label: 'Hike', value: '4' },
+  { label: 'Run', value: '9' },
+  { label: 'Walk', value: '10' },
+  { label: 'Canoe', value: '21' },
+  { label: 'Kayaking', value: '22' },
+  { label: 'Rowing', value: '23' },
 ];
 
 const ActivityTypeSelector = ({ handleSelect, selected }) => {
@@ -54,7 +23,7 @@ const ActivityTypeSelector = ({ handleSelect, selected }) => {
       }}
     >
       <select onChange={handleSelect}>
-        {typeOptions.map((option) => {
+        {options.map((option) => {
           const { label, value } = option;
           return (
             <option key={value} selected={selected === value} value={value}>
