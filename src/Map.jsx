@@ -1,12 +1,21 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import ReactDOM from 'react-dom';
 import { MapContainer, Polyline, TileLayer } from 'react-leaflet';
 import debounce from 'lodash.debounce';
 
 import ActivityTypeSelector from './components/ActivityTypeSelector';
 import PolylineColorPicker from './components/PolylineColorPicker';
+import Zoom from './components/Zoom';
 
 const Map = () => {
+  const mapRef = useRef(null);
+
   const [activities, setActivities] = useState([]);
   const [activityType, setActivityType] = useState('1');
   const [polylineColor, setPolylineColor] = useState('#ff69bf');
@@ -55,19 +64,23 @@ const Map = () => {
           />
           <PolylineColorPicker
             handleChange={(e) => handleColorChange(e.target.value)}
-            selected={polylineColor}
+            value={polylineColor}
           />
+          {mapRef.current && <Zoom map={mapRef.current} />}
         </div>
+
         <MapContainer
-          style={{ zIndex: 1 }}
           center={[40.73061, -73.935242]}
-          zoom={11}
           scrollWheelZoom={false}
+          style={{ zIndex: 1 }}
+          whenCreated={(map) => (mapRef.current = map)}
+          zoom={11}
         >
           <TileLayer
             attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
             url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png"
           />
+
           {filteredActivities.map((activity) => {
             return (
               <Polyline

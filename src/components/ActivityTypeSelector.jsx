@@ -41,16 +41,18 @@ const ActivityTypeSelector = ({ handleSelect, selected }) => {
   return (
     <div className="tool">
       <label htmlFor="activityTypeSelector">Activity type</label>
-      <select id="activityTypeSelector" onChange={handleSelect}>
-        {options.map((option) => {
-          const { label, value } = option;
-          return (
-            <option key={value} selected={selected === value} value={value}>
-              {label}
-            </option>
-          );
-        })}
-      </select>
+      <div>
+        <select id="activityTypeSelector" onChange={handleSelect}>
+          {options.map((option) => {
+            const { label, value } = option;
+            return (
+              <option key={value} selected={selected === value} value={value}>
+                {label}
+              </option>
+            );
+          })}
+        </select>
+      </div>
     </div>
   );
 };
