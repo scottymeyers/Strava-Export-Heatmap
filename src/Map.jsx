@@ -102,19 +102,16 @@ const Map = () => {
             attribution='<div class="test"><a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a></div>'
             url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png"
           />
-
-          {filteredActivities.map((activity) => {
-            return (
-              <Polyline
-                key={activity.name}
-                pathOptions={{ color: activity.color }}
-                positions={activity.points}
-                opacity={0.5}
-                smoothFactor={1}
-                weight={1}
-              />
-            );
-          })}
+          {filteredActivities.map((activity) => (
+            <Polyline
+              key={activity.name}
+              pathOptions={{ color: activity.color }}
+              positions={activity.points}
+              opacity={0.5}
+              smoothFactor={1}
+              weight={1}
+            />
+          ))}
         </MapContainer>
       </>
     </>

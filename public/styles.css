@@ -1,0 +1,117 @@
+html,
+body,
+#root,
+.leaflet-container {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+}
+
+body {
+  box-sizing: border-box;
+  color: white;
+  font-family: monospace;
+  font-size: 12px;
+}
+
+a {
+  color: white;
+}
+
+ul {
+  padding: 0 0 0 15px;
+  margin: 0;
+}
+
+.color-trans-white {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.flex {
+  align-items: center;
+  display: flex;
+}
+
+.map {
+  z-index: 1;
+}
+
+.loading {
+  align-items: center;
+  background: black;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: 3;
+}
+
+.widgets {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 12px;
+  top: 12px;
+  width: 200px;
+  z-index: 2;
+}
+
+.widget {
+  background: #262626;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  margin-bottom: 5px;
+}
+
+.widget-toggle {
+  background: black;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: block;
+  padding: 4px 10px;
+  position: relative;
+  text-align: left;
+  width: 100%;
+}
+
+.widget-toggle span {
+  height: 100%;
+  line-height: 20px;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 0;
+  width: 23px;
+}
+
+.widget > div {
+  padding: 10px;
+}
+
+.widget div button,
+.widget div input,
+.widget div select {
+  background: black;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 0;
+  color: white;
+  cursor: pointer;
+  margin-right: 2px;
+}
+
+.zoom {
+  justify-content: space-between;
+}
+
+.zoom button {
+  width: 30px;
+}
+
+.leaflet-control.leaflet-control-attribution {
+  position: fixed;
+  z-index: -1;
+}
