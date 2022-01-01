@@ -28,6 +28,10 @@
       font-size: 12px;
     }
 
+    .map {
+      z-index: 1;
+    }
+
     .loading {
       align-items: center;
       background: black;
@@ -60,12 +64,51 @@
     .tool>label {
       background: black;
       border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      cursor: pointer;
       display: block;
       padding: 4px 10px;
+      position: relative;
+    }
+
+    .tool label::after {
+      content: '-';
+      height: 100%;
+      line-height: 20px;
+      position: absolute;
+      right: 0;
+      text-align: center;
+      top: 0;
+      width: 23px;
     }
 
     .tool>div {
       padding: 10px;
+    }
+
+    .tool button,
+    .tool input,
+    .tool select {
+      background: black;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 0;
+      color: white;
+      cursor: pointer;
+      margin-right: 2px;
+
+    }
+
+    .zoom {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .zoom button {
+      width: 30px;
+    }
+
+    .color-trans-white {
+      color: rgba(255, 255, 255, 0.5);
     }
   </style>
 </head>

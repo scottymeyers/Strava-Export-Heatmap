@@ -11,6 +11,7 @@ import debounce from 'lodash.debounce';
 
 import ActivityTypeSelector from './components/ActivityTypeSelector';
 import PolylineColorPicker from './components/PolylineColorPicker';
+import Widget from './components/Widget';
 import Zoom from './components/Zoom';
 
 const Map = () => {
@@ -53,27 +54,36 @@ const Map = () => {
     <>
       {activities.length === 0 && (
         <div className="loading">
-          <span>Loading Activities...</span>
+          <span>Loading activities...</span>
         </div>
       )}
       <>
         <div className="tools">
-          <ActivityTypeSelector
-            handleSelect={(e) => setActivityType(e.target.value)}
-            selected={activityType}
-          />
-          <PolylineColorPicker
-            handleChange={(e) => handleColorChange(e.target.value)}
-            value={polylineColor}
-          />
-          {mapRef.current && <Zoom map={mapRef.current} />}
+          <Widget title="Activity type">
+            <ActivityTypeSelector
+              handleSelect={(e) => setActivityType(e.target.value)}
+              selected={activityType}
+            />
+          </Widget>
+          <Widget title="Line color">
+            <PolylineColorPicker
+              handleChange={(e) => handleColorChange(e.target.value)}
+              value={polylineColor}
+            />
+          </Widget>
+          {mapRef.current && (
+            <Widget title="Zoom">
+              <Zoom map={mapRef.current} />
+            </Widget>
+          )}
         </div>
 
         <MapContainer
           center={[40.73061, -73.935242]}
+          className="map"
           scrollWheelZoom={false}
-          style={{ zIndex: 1 }}
           whenCreated={(map) => (mapRef.current = map)}
+          zoomControl={false}
           zoom={11}
         >
           <TileLayer
