@@ -10,6 +10,7 @@ import { MapContainer, Polyline, TileLayer } from 'react-leaflet';
 import debounce from 'lodash.debounce';
 
 import ActivityTypeSelector from './components/ActivityTypeSelector';
+import Attribution from './components/Attribution';
 import PolylineColorPicker from './components/PolylineColorPicker';
 import Widget from './components/Widget';
 import Zoom from './components/Zoom';
@@ -76,8 +77,10 @@ const Map = () => {
               <Zoom map={mapRef.current} />
             </Widget>
           )}
+          <Widget lockedOpen title="Attribution">
+            <Attribution />
+          </Widget>
         </div>
-
         <MapContainer
           center={[40.73061, -73.935242]}
           className="map"
@@ -86,10 +89,7 @@ const Map = () => {
           zoomControl={false}
           zoom={11}
         >
-          <TileLayer
-            attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
-            url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png"
-          />
+          <TileLayer url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png" />
 
           {filteredActivities.map((activity) => {
             return (

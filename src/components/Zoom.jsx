@@ -13,7 +13,7 @@ const Zoom = ({ map }) => {
   }, [currentZoom]);
 
   return (
-    <div className="zoom">
+    <div className="flex zoom">
       <div>
         <button
           disabled={currentZoom >= 20}

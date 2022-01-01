@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 
-const Widget = ({ children, subtitle, title }) => {
+const Widget = ({ children, lockedOpen = false, subtitle, title }) => {
   const [isOpen, setIsOpen] = useState(true);
   return (
     <div className="tool">
-      <label onClick={() => setIsOpen(!isOpen)}>
+      <label
+        style={lockedOpen ? { pointerEvents: 'none' } : {}}
+        onClick={() => {
+          if (!lockedOpen) setIsOpen(!isOpen);
+        }}
+      >
         {`${title} `}
         {subtitle && <span className="color-trans-white">{subtitle}</span>}
       </label>

@@ -28,6 +28,15 @@
       font-size: 12px;
     }
 
+    a {
+      color: white;
+    }
+
+    ul {
+      padding: 0 0 0 15px;
+      margin: 0;
+    }
+
     .map {
       z-index: 1;
     }
@@ -98,8 +107,6 @@
     }
 
     .zoom {
-      align-items: center;
-      display: flex;
       justify-content: space-between;
     }
 
@@ -109,6 +116,16 @@
 
     .color-trans-white {
       color: rgba(255, 255, 255, 0.5);
+    }
+
+    .flex {
+      align-items: center;
+      display: flex;
+    }
+
+    .leaflet-control-attribution {
+      position: fixed;
+      z-index: -1;
     }
   </style>
 </head>
