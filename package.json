@@ -7,6 +7,7 @@
     "express": "^4.17.2",
     "leaflet": "^1.7.1",
     "lodash.debounce": "^4.0.8",
+    "pako": "^2.0.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-leaflet": "^3.2.2",
@@ -21,7 +22,7 @@
     "prettier": "2.5.1"
   },
   "scripts": {
-    "convert": "cd src && node gpx-to-json",
+    "convert": "cd src && node convert",
     "start": "cd src && node serve",
     "ui-build": "esbuild ./src/Map.jsx --bundle --minify --sourcemap --loader:.js=jsx --outfile=./public/bundle.js",
     "ui-watch": "node src/watch"

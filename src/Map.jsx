@@ -62,6 +62,15 @@ const Map = () => {
         <div className="widgets">
           <Widget title="Activity type">
             <ActivityTypeSelector
+              desiredOptions={[
+                'All',
+                'Ride',
+                'Hike',
+                'Walk',
+                'Canoe',
+                'Kayaking',
+                'Rowing',
+              ]}
               handleSelect={(e) => setActivityType(e.target.value)}
               selected={activityType}
             />

@@ -1,7 +1,8 @@
 const { promises: fs } = require('fs');
-const parseString = require('xml2js').parseString;
+const pako = require('pako');
+const parseString = require('xml2js').parseStringPromise;
 
-const extractData = (gpx) => {
+const parseGpx = (gpx) => {
   if (!gpx.trk) return [];
 
   const parsedTracks = [];
@@ -42,41 +43,38 @@ const extractData = (gpx) => {
 const getFilePaths = async (directory) => {
   const files = await fs.readdir(directory);
   return files.flatMap((file) => {
-    // TODO: eventually handle gzip
     const format = file.split('.').pop().toLowerCase();
-    return format === 'gpx' ? `${directory}/${file}` : [];
+    return ['gpx', 'gz'].includes(format) ? `${directory}/${file}` : [];
   });
 };
 
-const parseFile = async (fileContent) => {
-  return new Promise((resolve, reject) => {
-    parseString(fileContent, (err, result) => {
-      if (err) {
-        reject(err);
-      } else if (result.gpx) {
-        const track = extractData(result.gpx);
-        resolve(track);
-      } else {
-        reject(new Error("Can't extract GPX."));
-      }
-    });
-  });
+const parseFileData = async (fileContent) => {
+  const data = await parseString(fileContent);
+  const { gpx } = data;
+  return gpx ? parseGpx(gpx) : [];
 };
 
 const readFile = async (filePath) => {
-  const fileContent = await fs.readFile(filePath, 'utf-8');
-  const parsedFile = await parseFile(fileContent);
-  return parsedFile;
+  const fileContent = await fs.readFile(filePath);
+  const isGzipped = /\.gz$/i.test(filePath);
+  const fileData = isGzipped
+    ? pako.inflate(fileContent, { to: 'string' })
+    : fileContent;
+  return await parseFileData(fileData);
 };
 
-const readFiles = async (paths) =>
-  Promise.all(paths.map((path) => readFile(path))).then((results) => results);
+const readFiles = async (paths) => {
+  const data = await Promise.all(
+    paths.map((filePath) => readFile(filePath))
+  ).then((fileData) => fileData);
+  const flattened = data.flatMap((d) => d);
+  return JSON.stringify(flattened);
+};
 
 const gpxToJson = async () => {
-  const paths = await getFilePaths('../activities');
-  const data = await readFiles(paths);
-  const flattenedData = data.flatMap((d) => d);
-  const json = JSON.stringify(flattenedData);
+  const filePaths = await getFilePaths('../activities');
+  const json = await readFiles(filePaths);
+
   fs.writeFile('../public/activities.json', json, 'utf8', (error) => {
     if (error) {
       console.log('An error occured while writing JSON Object to File.');
