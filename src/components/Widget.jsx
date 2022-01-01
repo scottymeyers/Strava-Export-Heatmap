@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Widget = ({ children, lockedOpen = false, subtitle, title }) => {
+const Widget = ({ children, lockedOpen = false, title }) => {
   const [isOpen, setIsOpen] = useState(true);
   return (
     <div className="tool">
@@ -10,8 +10,7 @@ const Widget = ({ children, lockedOpen = false, subtitle, title }) => {
           if (!lockedOpen) setIsOpen(!isOpen);
         }}
       >
-        {`${title} `}
-        {subtitle && <span className="color-trans-white">{subtitle}</span>}
+        {`${title} `} <span>{isOpen ? '-' : '+'}</span>
       </label>
       {isOpen && <div>{children}</div>}
     </div>
