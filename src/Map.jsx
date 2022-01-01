@@ -59,7 +59,7 @@ const Map = () => {
         </div>
       )}
       <>
-        <div className="tools">
+        <div className="widgets">
           <Widget title="Activity type">
             <ActivityTypeSelector
               handleSelect={(e) => setActivityType(e.target.value)}
@@ -86,10 +86,13 @@ const Map = () => {
           className="map"
           scrollWheelZoom={false}
           whenCreated={(map) => (mapRef.current = map)}
-          zoomControl={false}
           zoom={11}
+          zoomControl={false}
         >
-          <TileLayer url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png" />
+          <TileLayer
+            attribution='<div class="test"><a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a></div>'
+            url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png"
+          />
 
           {filteredActivities.map((activity) => {
             return (

@@ -54,7 +54,7 @@
       z-index: 3;
     }
 
-    .tools {
+    .widgets {
       display: flex;
       flex-direction: column;
       position: fixed;
@@ -64,22 +64,25 @@
       z-index: 2;
     }
 
-    .tool {
+    .widget {
       background: #262626;
       border: 1px solid rgba(255, 255, 255, 0.5);
       margin-bottom: 5px;
     }
 
-    .tool>label {
+    .widget-toggle {
       background: black;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      border: none;
+      color: white;
       cursor: pointer;
       display: block;
       padding: 4px 10px;
       position: relative;
+      text-align: left;
+      width: 100%;
     }
 
-    .tool label span {
+    .widget-toggle span {
       height: 100%;
       line-height: 20px;
       position: absolute;
@@ -89,20 +92,19 @@
       width: 23px;
     }
 
-    .tool>div {
+    .widget>div {
       padding: 10px;
     }
 
-    .tool button,
-    .tool input,
-    .tool select {
+    .widget div button,
+    .widget div input,
+    .widget div select {
       background: black;
       border: 1px solid rgba(255, 255, 255, 0.5);
       border-radius: 0;
       color: white;
       cursor: pointer;
       margin-right: 2px;
-
     }
 
     .zoom {
