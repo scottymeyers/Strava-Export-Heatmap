@@ -33,6 +33,10 @@ ul {
   display: flex;
 }
 
+.justify-space-between {
+  justify-content: space-between;
+}
+
 .map {
   z-index: 1;
 }
@@ -103,12 +107,19 @@ ul {
   margin-right: 2px;
 }
 
-.zoom {
-  justify-content: space-between;
+.widget .button {
+  height: 20px;
+  width: 30px;
 }
 
-.zoom button {
-  width: 30px;
+.widget .button:disabled {
+  cursor: initial;
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+.zoom {
+  justify-content: space-between;
 }
 
 .leaflet-control.leaflet-control-attribution {

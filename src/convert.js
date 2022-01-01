@@ -49,8 +49,7 @@ const getFilePaths = async (directory) => {
 };
 
 const parseFileData = async (fileContent) => {
-  const data = await parseString(fileContent);
-  const { gpx } = data;
+  const { gpx } = await parseString(fileContent);
   return gpx ? parseGpx(gpx) : [];
 };
 

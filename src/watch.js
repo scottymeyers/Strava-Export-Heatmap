@@ -12,7 +12,7 @@ server.listen(port, () => {
 const createBuild = () => {
   build({
     bundle: true,
-    entryPoints: ['./src/Map.jsx'],
+    entryPoints: ['./src/components/Map.jsx'],
     loader: {
       ['.js']: 'jsx',
     },

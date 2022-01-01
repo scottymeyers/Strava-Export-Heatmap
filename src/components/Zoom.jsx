@@ -16,6 +16,7 @@ const Zoom = ({ map }) => {
     <div className="flex zoom">
       <div>
         <button
+          className="button"
           disabled={currentZoom >= 20}
           onClick={handleZoom.bind(null, currentZoom + 1)}
           type="button"
@@ -23,6 +24,7 @@ const Zoom = ({ map }) => {
           +
         </button>
         <button
+          className="button"
           disabled={currentZoom <= 1}
           onClick={handleZoom.bind(null, currentZoom - 1)}
           type="button"

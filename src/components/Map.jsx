@@ -9,11 +9,12 @@ import ReactDOM from 'react-dom';
 import { MapContainer, Polyline, TileLayer } from 'react-leaflet';
 import debounce from 'lodash.debounce';
 
-import ActivityTypeSelector from './components/ActivityTypeSelector';
-import Attribution from './components/Attribution';
-import PolylineColorPicker from './components/PolylineColorPicker';
-import Widget from './components/Widget';
-import Zoom from './components/Zoom';
+import ActivityTypeSelector from './ActivityTypeSelector';
+import Attribution from './Attribution';
+import Center from './Center';
+import PolylineColorPicker from './PolylineColorPicker';
+import Widget from './Widget';
+import Zoom from './Zoom';
 
 const Map = () => {
   const mapRef = useRef(null);
@@ -21,14 +22,7 @@ const Map = () => {
   const [activities, setActivities] = useState([]);
   const [activityType, setActivityType] = useState('1');
   const [polylineColor, setPolylineColor] = useState('#ff69bf');
-
-  useEffect(() => {
-    fetch('/activities')
-      .then((response) => response.json())
-      .then((data) => {
-        setActivities(data);
-      });
-  }, []);
+  const [userLocation, setUserLocation] = useState(null);
 
   const filteredActivities = useMemo(
     () =>
@@ -50,6 +44,21 @@ const Map = () => {
     }, 500),
     []
   );
+
+  useEffect(() => {
+    fetch('/activities')
+      .then((response) => response.json())
+      .then((data) => {
+        setActivities(data);
+      });
+  }, []);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((currentPosition) => {
+      const { latitude, longitude } = currentPosition.coords;
+      setUserLocation({ lat: latitude, lng: longitude });
+    });
+  }, []);
 
   return (
     <>
@@ -82,9 +91,14 @@ const Map = () => {
             />
           </Widget>
           {mapRef.current && (
-            <Widget title="Zoom">
-              <Zoom map={mapRef.current} />
-            </Widget>
+            <>
+              <Widget title="Zoom">
+                <Zoom map={mapRef.current} />
+              </Widget>
+              <Widget title="Center">
+                <Center map={mapRef.current} userLocation={userLocation} />
+              </Widget>
+            </>
           )}
           <Widget lockedOpen title="Attribution">
             <Attribution />

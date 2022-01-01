@@ -24,7 +24,7 @@
   "scripts": {
     "convert": "cd src && node convert",
     "start": "cd src && node serve",
-    "ui-build": "esbuild ./src/Map.jsx --bundle --minify --sourcemap --loader:.js=jsx --outfile=./public/bundle.js",
+    "ui-build": "esbuild ./src/components/Map.jsx --bundle --minify --sourcemap --loader:.js=jsx --outfile=./public/bundle.js",
     "ui-watch": "node src/watch"
   },
   "license": "ISC"
