@@ -122,6 +122,28 @@ ul {
   justify-content: space-between;
 }
 
+.color-picker {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  height: 20px;
+  position: relative;
+  text-align: center;
+  width: 50%;
+}
+
+.color-picker input {
+  height: 100%;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.color-picker span {
+  position: relative;
+  top: 3px;
+}
+
 .leaflet-control.leaflet-control-attribution {
   position: fixed;
   z-index: -1;
