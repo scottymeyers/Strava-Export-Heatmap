@@ -54,10 +54,14 @@ const Map = () => {
   }, []);
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition((currentPosition) => {
-      const { latitude, longitude } = currentPosition.coords;
-      setUserLocation({ lat: latitude, lng: longitude });
-    });
+    if (!navigator.geolocation) {
+      console.log('Geolocation is not supported by your browser');
+    } else {
+      navigator.geolocation.getCurrentPosition((currentPosition) => {
+        const { latitude, longitude } = currentPosition.coords;
+        setUserLocation({ lat: latitude, lng: longitude });
+      });
+    }
   }, []);
 
   return (
