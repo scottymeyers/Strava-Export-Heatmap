@@ -5,19 +5,19 @@ const Zoom = ({ map }) => {
 
   const handleZoom = (desiredZoom, event) => {
     event.preventDefault();
-    setCurrentZoom(desiredZoom);
+    map.setZoom(desiredZoom);
   };
 
   useEffect(() => {
-    map.setZoom(currentZoom);
-  }, [currentZoom]);
+    map.on('zoomend', () => setCurrentZoom(map.getZoom()));
+  }, []);
 
   return (
     <div className="flex zoom">
       <div>
         <button
           className="button"
-          disabled={currentZoom >= 20}
+          disabled={currentZoom >= 18}
           onClick={handleZoom.bind(null, currentZoom + 1)}
           type="button"
         >
@@ -25,7 +25,7 @@ const Zoom = ({ map }) => {
         </button>
         <button
           className="button"
-          disabled={currentZoom <= 1}
+          disabled={currentZoom <= 3}
           onClick={handleZoom.bind(null, currentZoom - 1)}
           type="button"
         >
