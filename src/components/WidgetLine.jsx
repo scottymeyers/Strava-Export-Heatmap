@@ -1,26 +1,35 @@
 import React from 'react';
 
-const InputRange = ({ id, max, min, onChange, step, value }) => (
+const InputRange = ({
+  color = 'white',
+  id,
+  max,
+  min,
+  onChange,
+  step,
+  value,
+}) => (
   <input
-    onChange={onChange}
-    type="range"
     id={id}
-    min={min}
-    step={step}
     max={max}
+    min={min}
+    onChange={onChange}
+    step={step}
     style={{
       backgroundSize: `${(100 * value) / max}% 100%`,
+      color,
     }}
+    type="range"
     value={value}
   />
 );
 
-const LineOption = ({ children, label, value }) => {
+const LineOption = ({ children, htmlFor, label, value }) => {
   return (
     <>
       <div className="flex justify-space-between">
         <label
-          htmlFor="lineOpacity"
+          htmlFor={htmlFor}
           style={{ display: 'block', marginBottom: '2.5px' }}
         >
           {label}:
@@ -32,42 +41,68 @@ const LineOption = ({ children, label, value }) => {
   );
 };
 
-const WidgetLine = ({ onChange, values }) => {
-  const { lineColor, lineOpacity, lineWeight } = values;
+const WidgetLine = ({ onChange, options }) => {
+  const { color, dashArray, dashOffset, opacity, weight } = options;
   return (
     <>
-      <LineOption label="Color" value={lineColor}>
+      <LineOption htmlFor="lineColor" label="Color" value={color}>
         <div className="flex justify-space-between">
-          <div className="color-picker" style={{ background: lineColor }}>
+          <div className="color-picker" style={{ background: color }}>
             <input
               id="lineColor"
               onChange={onChange}
               type="color"
-              value={lineColor}
+              value={color}
             />
           </div>
         </div>
       </LineOption>
-
-      <LineOption label="Opacity" value={lineOpacity}>
+      <LineOption htmlFor="lineDashArray" label="Dash Array" value={dashArray}>
         <InputRange
+          color={color}
+          id="lineDashArray"
+          max={10}
+          min={0}
+          onChange={onChange}
+          step={1}
+          value={dashArray}
+        />
+      </LineOption>
+      <LineOption
+        htmlFor="lineDashOffset"
+        label="Dash Offset"
+        value={dashOffset}
+      >
+        <InputRange
+          color={color}
+          id="lineDashOffset"
+          max={10}
+          min={0}
+          onChange={onChange}
+          step={1}
+          value={dashOffset}
+        />
+      </LineOption>
+      <LineOption htmlFor="lineOpacity" label="Opacity" value={opacity}>
+        <InputRange
+          color={color}
           id="lineOpacity"
           max={1}
           min={0}
           onChange={onChange}
           step={0.1}
-          value={lineOpacity}
+          value={opacity}
         />
       </LineOption>
-
-      <LineOption label="Weight" value={lineWeight}>
+      <LineOption htmlFor="lineWeight" label="Weight" value={weight}>
         <InputRange
+          color={color}
           id="lineWeight"
           max={10}
           min={0}
           onChange={onChange}
           step={1}
-          value={lineWeight}
+          value={weight}
         />
       </LineOption>
     </>

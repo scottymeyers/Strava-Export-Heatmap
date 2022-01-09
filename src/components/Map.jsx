@@ -17,10 +17,13 @@ const Map = () => {
   const [activityType, setActivityType] = useState('1');
   const [userLocation, setUserLocation] = useState(null);
 
-  // todo: group
-  const [lineColor, setLineColor] = useState('#ff69bf');
-  const [lineOpacity, setLineOpacity] = useState(0.5);
-  const [lineWeight, setLineWeight] = useState(1);
+  const [lineOptions, setLineOptions] = useState({
+    color: '#ff69bf',
+    dashArray: '0',
+    dashOffset: '0',
+    opacity: 0.5,
+    weight: 1,
+  });
 
   const filteredActivities = useMemo(
     () =>
@@ -28,29 +31,37 @@ const Map = () => {
         return {
           color:
             activityType === '0' || activityType === activity.type[0]
-              ? lineColor
+              ? lineOptions.color
               : 'transparent',
-          opacity: lineOpacity,
-          weight: lineWeight,
+          opacity: lineOptions.opacity,
+          dashArray: lineOptions.dashArray,
+          dashOffset: lineOptions.dashOffset,
+          weight: lineOptions.weight,
           ...activity,
         };
       }),
-    [activities, activityType, lineColor]
+    [activities, activityType, lineOptions]
   );
 
   const handleLineChange = (event) => {
     const { id, value } = event.target;
-    const delay = id === 'lineColor' ? 500 : 50;
+    const delay = id === 'lineColor' ? 500 : 5;
     debounce(() => {
       switch (id) {
         case 'lineColor':
-          setLineColor(value);
+          setLineOptions((o) => ({ ...o, color: value }));
+          break;
+        case 'lineDashArray':
+          setLineOptions((o) => ({ ...o, dashArray: value }));
+          break;
+        case 'lineDashOffset':
+          setLineOptions((o) => ({ ...o, dashOffset: value }));
           break;
         case 'lineOpacity':
-          setLineOpacity(value);
+          setLineOptions((o) => ({ ...o, opacity: value }));
           break;
         case 'lineWeight':
-          setLineWeight(value);
+          setLineOptions((o) => ({ ...o, weight: value }));
           break;
         default:
           break;
@@ -102,14 +113,7 @@ const Map = () => {
             />
           </Widget>
           <Widget title="Line">
-            <WidgetLine
-              onChange={handleLineChange}
-              values={{
-                lineColor,
-                lineOpacity,
-                lineWeight,
-              }}
-            />
+            <WidgetLine onChange={handleLineChange} options={lineOptions} />
           </Widget>
           {mapRef.current && (
             <>
@@ -141,17 +145,14 @@ const Map = () => {
             <Polyline
               key={activity.name}
               pathOptions={{
-                // use activity.color for transparency hanlding
                 color: activity.color,
-                opacity: lineOpacity,
-                weight: lineWeight,
-                // dashArray: '2',
-                // dashOffset: '2',
+                dashArray: Number(activity.dashArray),
+                dashOffset: Number(activity.dashOffset),
+                opacity: activity.opacity,
+                weight: activity.weight,
               }}
               positions={activity.points}
-              opacity={lineOpacity}
               smoothFactor={1}
-              weight={lineWeight}
             />
           ))}
         </MapContainer>
