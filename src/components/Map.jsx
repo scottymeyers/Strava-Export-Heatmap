@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { MapContainer, Polyline, TileLayer } from 'react-leaflet';
 import debounce from 'lodash.debounce';
@@ -12,7 +6,7 @@ import debounce from 'lodash.debounce';
 import ActivityTypeSelector from './ActivityTypeSelector';
 import Attribution from './Attribution';
 import Center from './Center';
-import PolylineColorPicker from './PolylineColorPicker';
+import WidgetLine from './WidgetLine';
 import Widget from './Widget';
 import Zoom from './Zoom';
 
@@ -21,8 +15,12 @@ const Map = () => {
 
   const [activities, setActivities] = useState([]);
   const [activityType, setActivityType] = useState('1');
-  const [polylineColor, setPolylineColor] = useState('#ff69bf');
   const [userLocation, setUserLocation] = useState(null);
+
+  // todo: group
+  const [lineColor, setLineColor] = useState('#ff69bf');
+  const [lineOpacity, setLineOpacity] = useState(0.5);
+  const [lineWeight, setLineWeight] = useState(1);
 
   const filteredActivities = useMemo(
     () =>
@@ -30,20 +28,35 @@ const Map = () => {
         return {
           color:
             activityType === '0' || activityType === activity.type[0]
-              ? polylineColor
+              ? lineColor
               : 'transparent',
+          opacity: lineOpacity,
+          weight: lineWeight,
           ...activity,
         };
       }),
-    [activities, activityType, polylineColor]
+    [activities, activityType, lineColor]
   );
 
-  const handleColorChange = useCallback(
-    debounce((color) => {
-      setPolylineColor(color);
-    }, 500),
-    []
-  );
+  const handleLineChange = (event) => {
+    const { id, value } = event.target;
+    const delay = id === 'lineColor' ? 500 : 50;
+    debounce(() => {
+      switch (id) {
+        case 'lineColor':
+          setLineColor(value);
+          break;
+        case 'lineOpacity':
+          setLineOpacity(value);
+          break;
+        case 'lineWeight':
+          setLineWeight(value);
+          break;
+        default:
+          break;
+      }
+    }, delay)();
+  };
 
   useEffect(() => {
     fetch('/activities')
@@ -88,10 +101,14 @@ const Map = () => {
               selected={activityType}
             />
           </Widget>
-          <Widget title="Line color">
-            <PolylineColorPicker
-              handleChange={(e) => handleColorChange(e.target.value)}
-              value={polylineColor}
+          <Widget title="Line">
+            <WidgetLine
+              onChange={handleLineChange}
+              values={{
+                lineColor,
+                lineOpacity,
+                lineWeight,
+              }}
             />
           </Widget>
           {mapRef.current && (
@@ -123,11 +140,18 @@ const Map = () => {
           {filteredActivities.map((activity) => (
             <Polyline
               key={activity.name}
-              pathOptions={{ color: activity.color }}
+              pathOptions={{
+                // use activity.color for transparency hanlding
+                color: activity.color,
+                opacity: lineOpacity,
+                weight: lineWeight,
+                // dashArray: '2',
+                // dashOffset: '2',
+              }}
               positions={activity.points}
-              opacity={0.5}
+              opacity={lineOpacity}
               smoothFactor={1}
-              weight={1}
+              weight={lineWeight}
             />
           ))}
         </MapContainer>
