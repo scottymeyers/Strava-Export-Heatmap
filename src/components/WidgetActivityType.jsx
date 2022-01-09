@@ -1,4 +1,5 @@
 import React from 'react';
+import Widget from './Widget';
 
 const availableOptions = [
   { label: 'All', value: '0' },
@@ -37,20 +38,22 @@ const availableOptions = [
   { label: 'Virtual Run', value: '53' },
 ];
 
-const ActivityTypeSelector = ({ desiredOptions, handleSelect, selected }) => {
+const WidgetActivityType = ({ desiredOptions, handleSelect, selected }) => {
   return (
-    <select onChange={handleSelect}>
-      {availableOptions.map((option) => {
-        const { label, value } = option;
-        if (!desiredOptions.includes(option.label)) return null;
-        return (
-          <option key={value} selected={selected === value} value={value}>
-            {label}
-          </option>
-        );
-      })}
-    </select>
+    <Widget title="Activity type">
+      <select onChange={handleSelect}>
+        {availableOptions.map((option) => {
+          const { label, value } = option;
+          if (!desiredOptions.includes(option.label)) return null;
+          return (
+            <option key={value} selected={selected === value} value={value}>
+              {label}
+            </option>
+          );
+        })}
+      </select>
+    </Widget>
   );
 };
 
-export default ActivityTypeSelector;
+export default WidgetActivityType;

@@ -1,4 +1,5 @@
 import React from 'react';
+import Widget from './Widget';
 
 const InputRange = ({
   color = 'white',
@@ -44,7 +45,7 @@ const LineOption = ({ children, htmlFor, label, value }) => {
 const WidgetLine = ({ onChange, options }) => {
   const { color, dashArray, dashOffset, opacity, weight } = options;
   return (
-    <>
+    <Widget title="Line">
       <LineOption htmlFor="lineColor" label="Color" value={color}>
         <div className="flex justify-space-between">
           <div className="color-picker" style={{ background: color }}>
@@ -105,7 +106,7 @@ const WidgetLine = ({ onChange, options }) => {
           value={weight}
         />
       </LineOption>
-    </>
+    </Widget>
   );
 };
 

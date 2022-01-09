@@ -3,12 +3,11 @@ import ReactDOM from 'react-dom';
 import { MapContainer, Polyline, TileLayer } from 'react-leaflet';
 import debounce from 'lodash.debounce';
 
-import ActivityTypeSelector from './ActivityTypeSelector';
-import Attribution from './Attribution';
-import Center from './Center';
+import WidgetActivityType from './WidgetActivityType';
+import WidgetCenter from './WidgetCenter';
 import WidgetLine from './WidgetLine';
-import Widget from './Widget';
-import Zoom from './Zoom';
+import WidgetLinks from './WidgetLinks';
+import WidgetZoom from './WidgetZoom';
 
 const Map = () => {
   const mapRef = useRef(null);
@@ -97,37 +96,29 @@ const Map = () => {
       )}
       <>
         <div className="widgets">
-          <Widget title="Activity type">
-            <ActivityTypeSelector
-              desiredOptions={[
-                'All',
-                'Ride',
-                'Hike',
-                'Walk',
-                'Canoe',
-                'Kayaking',
-                'Rowing',
-              ]}
-              handleSelect={(e) => setActivityType(e.target.value)}
-              selected={activityType}
-            />
-          </Widget>
-          <Widget title="Line">
-            <WidgetLine onChange={handleLineChange} options={lineOptions} />
-          </Widget>
+          <WidgetActivityType
+            desiredOptions={[
+              'All',
+              'Ride',
+              'Hike',
+              'Walk',
+              'Canoe',
+              'Kayaking',
+              'Rowing',
+            ]}
+            handleSelect={(e) => setActivityType(e.target.value)}
+            selected={activityType}
+          />
+
+          <WidgetLine onChange={handleLineChange} options={lineOptions} />
+
           {mapRef.current && (
             <>
-              <Widget title="Zoom">
-                <Zoom map={mapRef.current} />
-              </Widget>
-              <Widget title="Center">
-                <Center map={mapRef.current} userLocation={userLocation} />
-              </Widget>
+              <WidgetZoom map={mapRef.current} />
+              <WidgetCenter map={mapRef.current} userLocation={userLocation} />
             </>
           )}
-          <Widget lockedOpen title="Attribution">
-            <Attribution />
-          </Widget>
+          <WidgetLinks />
         </div>
         <MapContainer
           center={[40.73061, -73.935242]}
