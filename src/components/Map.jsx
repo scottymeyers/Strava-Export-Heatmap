@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { MapContainer, Polyline, TileLayer } from 'react-leaflet';
+import { MapContainer, Marker, Polyline, TileLayer } from 'react-leaflet';
 import debounce from 'lodash.debounce';
 
 import WidgetActivityType from './WidgetActivityType';
@@ -14,6 +14,10 @@ const Map = () => {
 
   const [activities, setActivities] = useState([]);
   const [activityType, setActivityType] = useState('1');
+  const [mapCenter, setMapCenter] = useState({
+    lat: 40.73061,
+    lng: -73.935242,
+  });
   const [userLocation, setUserLocation] = useState(null);
 
   const [lineOptions, setLineOptions] = useState({
@@ -87,6 +91,12 @@ const Map = () => {
     }
   }, []);
 
+  useEffect(() => {
+    mapRef?.current?.on('moveend', () => {
+      setMapCenter(mapRef.current.getCenter());
+    });
+  }, [mapRef.current]);
+
   return (
     <>
       {activities.length === 0 && (
@@ -115,13 +125,17 @@ const Map = () => {
           {mapRef.current && (
             <>
               <WidgetZoom map={mapRef.current} />
-              <WidgetCenter map={mapRef.current} userLocation={userLocation} />
+              <WidgetCenter
+                center={mapCenter}
+                map={mapRef.current}
+                userLocation={userLocation}
+              />
             </>
           )}
           <WidgetLinks />
         </div>
         <MapContainer
-          center={[40.73061, -73.935242]}
+          center={[mapCenter.lat, mapCenter.lng]}
           className="map"
           scrollWheelZoom={false}
           whenCreated={(map) => (mapRef.current = map)}
@@ -146,6 +160,7 @@ const Map = () => {
               smoothFactor={1}
             />
           ))}
+          {userLocation && <Marker position={userLocation} />}
         </MapContainer>
       </>
     </>
