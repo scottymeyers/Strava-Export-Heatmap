@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
+import { divIcon } from 'leaflet';
 import { MapContainer, Marker, Polyline, TileLayer } from 'react-leaflet';
 import debounce from 'lodash.debounce';
 
@@ -170,7 +171,15 @@ const Map = () => {
               smoothFactor={1}
             />
           ))}
-          {userLocation && <Marker position={userLocation} />}
+          {userLocation && (
+            <Marker
+              position={userLocation}
+              icon={divIcon({
+                className: '',
+                html: `<svg viewBox="0 0 100 100"><circle fill="${lineOptions.color}" cx="50" cy="50" r="50"/></svg>`,
+              })}
+            />
+          )}
         </MapContainer>
       </>
     </>
