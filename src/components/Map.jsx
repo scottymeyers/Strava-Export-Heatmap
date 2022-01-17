@@ -14,6 +14,7 @@ const Map = () => {
 
   const [activities, setActivities] = useState([]);
   const [activityType, setActivityType] = useState('1');
+  const [errorMessage, setErrorMessage] = useState(null);
   const [mapCenter, setMapCenter] = useState({
     lat: 40.73061,
     lng: -73.935242,
@@ -74,9 +75,18 @@ const Map = () => {
 
   useEffect(() => {
     fetch('/activities')
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Activities Not Found');
+        } else {
+          return response.json();
+        }
+      })
       .then((data) => {
         setActivities(data);
+      })
+      .catch((error) => {
+        setErrorMessage(error.message);
       });
   }, []);
 
@@ -101,7 +111,7 @@ const Map = () => {
     <>
       {activities.length === 0 && (
         <div className="loading">
-          <span>Loading activities...</span>
+          <span>{errorMessage ? errorMessage : 'Loading activities...'}</span>
         </div>
       )}
       <>
