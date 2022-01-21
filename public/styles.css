@@ -71,6 +71,7 @@ ul {
     position: fixed;
     left: 12px;
     top: 12px;
+    transition: transform 0.3s ease-in-out;
     width: 200px;
     z-index: 2;
   }
@@ -79,6 +80,21 @@ ul {
     background: #262626;
     border: 1px solid rgba(255, 255, 255, 0.5);
     margin-bottom: 5px;
+  }
+
+  .widgets-toggle {
+    background: black;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-left: none;
+    color: white;
+    cursor: pointer;
+    height: 40px;
+    left: 100%;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    width: 30px;
+    z-index: 1;
   }
 
   .widget > div {

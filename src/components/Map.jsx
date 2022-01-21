@@ -4,11 +4,7 @@ import { divIcon } from 'leaflet';
 import { MapContainer, Marker, Polyline, TileLayer } from 'react-leaflet';
 import debounce from 'lodash.debounce';
 
-import WidgetActivityType from './WidgetActivityType';
-import WidgetCenter from './WidgetCenter';
-import WidgetLine from './WidgetLine';
-import WidgetLinks from './WidgetLinks';
-import WidgetZoom from './WidgetZoom';
+import Widgets from './Widgets';
 
 const Map = () => {
   const mapRef = useRef(null);
@@ -20,8 +16,6 @@ const Map = () => {
     lat: 40.73061,
     lng: -73.935242,
   });
-  const [userLocation, setUserLocation] = useState(null);
-
   const [lineOptions, setLineOptions] = useState({
     color: '#ff69bf',
     dashArray: '0',
@@ -29,6 +23,7 @@ const Map = () => {
     opacity: 0.5,
     weight: 1,
   });
+  const [userLocation, setUserLocation] = useState(null);
 
   const filteredActivities = useMemo(
     () =>
@@ -74,6 +69,7 @@ const Map = () => {
     }, delay)();
   };
 
+  // load data generated with convert script
   useEffect(() => {
     fetch('/activities')
       .then((response) => {
@@ -91,6 +87,7 @@ const Map = () => {
       });
   }, []);
 
+  // ask for user geolocation permissions
   useEffect(() => {
     if (!navigator.geolocation) {
       console.log('Geolocation is not supported by your browser');
@@ -102,6 +99,7 @@ const Map = () => {
     }
   }, []);
 
+  // keep track of map center coordinates
   useEffect(() => {
     mapRef?.current?.on('moveend', () => {
       setMapCenter(mapRef.current.getCenter());
@@ -116,35 +114,15 @@ const Map = () => {
         </div>
       )}
       <>
-        <div className="widgets">
-          <WidgetActivityType
-            desiredOptions={[
-              'All',
-              'Ride',
-              'Hike',
-              'Walk',
-              'Canoe',
-              'Kayaking',
-              'Rowing',
-            ]}
-            handleSelect={(e) => setActivityType(e.target.value)}
-            selected={activityType}
-          />
-
-          <WidgetLine onChange={handleLineChange} options={lineOptions} />
-
-          {mapRef.current && (
-            <>
-              <WidgetZoom map={mapRef.current} />
-              <WidgetCenter
-                center={mapCenter}
-                map={mapRef.current}
-                userLocation={userLocation}
-              />
-            </>
-          )}
-          <WidgetLinks />
-        </div>
+        <Widgets
+          activityType={activityType}
+          handleLineChange={handleLineChange}
+          handleActivitySelect={(e) => setActivityType(e.target.value)}
+          lineOptions={lineOptions}
+          mapCenter={mapCenter}
+          mapRef={mapRef}
+          userLocation={userLocation}
+        />
         <MapContainer
           center={[mapCenter.lat, mapCenter.lng]}
           className="map"
@@ -176,7 +154,17 @@ const Map = () => {
               position={userLocation}
               icon={divIcon({
                 className: '',
-                html: `<svg viewBox="0 0 100 100"><circle fill="${lineOptions.color}" cx="50" cy="50" r="50"/></svg>`,
+                html: `
+                  <svg viewBox="0 0 100 100">
+                    <circle
+                      cx="50"
+                      cy="50"
+                      fill="white"
+                      fill-opacity="0.9"
+                      r="50"
+                    />
+                  </svg>
+                `,
               })}
             />
           )}
