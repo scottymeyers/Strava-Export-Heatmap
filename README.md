@@ -12,8 +12,4 @@
 
 ---
 
-If you'd like to make modifications to the frontend javascript, you can run `yarn ui-watch`, which will run builds as it detects changes.
-
----
-
 <img width="2557" alt="Screen Shot 2022-01-20 at 9 12 22 PM" src="https://user-images.githubusercontent.com/969752/150453308-e8a9bda4-c6b8-4b02-8340-501551ad042e.png">
