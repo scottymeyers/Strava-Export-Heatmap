@@ -123,6 +123,14 @@ const Map = () => {
           mapRef={mapRef}
           userLocation={userLocation}
         />
+        <button
+          className="button mobile-locate"
+          disabled={!userLocation}
+          onClick={() => mapRef.current.panTo(userLocation)}
+          type="button"
+        >
+          &#10166;
+        </button>
         <MapContainer
           center={[mapCenter.lat, mapCenter.lng]}
           className="map"

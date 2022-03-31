@@ -59,12 +59,25 @@ ul {
   z-index: -1;
 }
 
+.mobile-locate {
+  height: 40px;
+  left: 12px;
+  position: fixed;
+  top: 12px;
+  width: 40px;
+  z-index: 2;
+}
+
 .widgets {
   display: none;
 }
 
 /* Widgets */
 @media screen and (min-width: 768px) {
+  .mobile-locate {
+    display: none;
+  }
+
   .widgets {
     display: flex;
     flex-direction: column;
