@@ -27,10 +27,17 @@ const parseGpx = (gpx) => {
         }
       }
       if (points.length > 0) {
+        let activityType = [...trk.type];
+        if (trk.type[0] === 'Biking') {
+          activityType[0] = '1';
+        }
+        if (trk.type[0] === 'Running') {
+          activityType[0] = '9';
+        }
         parsedTracks.push({
           name,
           timestamp,
-          type: trk.type,
+          type: activityType,
           points,
         });
       }
