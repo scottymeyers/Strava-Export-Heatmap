@@ -55,9 +55,15 @@ const getFilePaths = async (directory) => {
   });
 };
 
-const parseFileData = async (fileContent) => {
-  const { gpx } = await parseString(fileContent);
-  return gpx ? parseGpx(gpx) : [];
+// TODO: figure out handling of whitespace error
+// https://github.com/Leonidas-from-XIV/node-xml2js/issues/345
+const parseFileData = async (xml) => {
+  try {
+    const { gpx } = await parseString(xml);
+    return gpx ? parseGpx(gpx) : [];
+  } catch (error) {
+    console.log({ error });
+  }
 };
 
 const readFile = async (filePath) => {
@@ -79,7 +85,9 @@ const readFiles = async (paths) => {
 
 const gpxToJson = async () => {
   const filePaths = await getFilePaths('../activities');
-  const json = await readFiles(filePaths);
+  // omit *.fit files until we can properly handle them
+  const permittedFiles = filePaths.filter((path) => !/\.fit.gz$/i.test(path));
+  const json = await readFiles(permittedFiles);
 
   fs.writeFile('../public/activities.json', json, 'utf8', (error) => {
     if (error) {
