@@ -11,17 +11,16 @@ const READ_DIR = '../activities';
 
 const { log } = console;
 
+// properly categorize activities when importing data from other services
 function mapActivityType(type) {
   switch (type) {
-    case 'Cycling': // Element FIT
-    case 'Biking': // Strava GPX
-    case '1':
+    case 'Cycling':
+    case 'Biking':
       return ['1'];
-    case 'Running': // Strava GPX
-    case '9': // Strava GPX
+    case 'Running':
       return ['9'];
     default:
-      return [];
+      return [type];
   }
 }
 
