@@ -1,6 +1,5 @@
 const { promises: fs } = require('fs');
 const FitParser = require('fit-file-parser').default;
-
 const pako = require('pako');
 const parseString = require('xml2js').parseStringPromise;
 
@@ -24,8 +23,7 @@ function mapActivityType(type) {
   }
 }
 
-async function getFilePaths() {
-  const files = await fs.readdir(READ_DIR);
+async function getFilePaths(files) {
   return files.flatMap((file) => {
     const format = file.split('.').pop().toLowerCase();
     return ['gpx', 'gz'].includes(format) ? `${READ_DIR}/${file}` : [];
@@ -121,11 +119,12 @@ async function readFile(path) {
 }
 
 (async () => {
-  const paths = await getFilePaths();
+  const files = await fs.readdir(READ_DIR);
+  const paths = await getFilePaths(files);
   const data = await Promise.all(paths.map((path) => readFile(path)));
-  const json = JSON.stringify(data.flatMap((d) => d));
+  const jsonString = JSON.stringify(data.flatMap((d) => d));
 
-  fs.writeFile(WRITE_PATH, json, { encoding: 'utf8' }).then(() => {
-    log(`JSON file has been saved to ${WRITE_PATH.replace('../', '')}`);
+  fs.writeFile(WRITE_PATH, jsonString, { encoding: 'utf8' }).then(() => {
+    log(`JSON has been saved to ${WRITE_PATH.replace('../', '')}`);
   });
 })();
