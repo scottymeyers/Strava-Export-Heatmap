@@ -6,6 +6,24 @@ import debounce from 'lodash.debounce';
 
 import Widgets from './Widgets';
 
+/*
+  Try these:
+
+  1. Load only objects in viewport. Either by writing your own solution (e.g. 
+  an endpoint that gets leaflet viewport bounding box and returns objects within 
+  it) or incorporating some existing solutions. E.g. Mapbox Vector Tiles format 
+  - there are both leaflet plugins for it and backend libraries for many 
+  languages that support packing geometries in this format.
+
+  2. Use some software to render you set of geometries into raster XYZ tiles 
+  format. There are pretty many solutions that can turn a shapefile into a set 
+  of png rasters (e.g. QGIS can do that). Raster tiles are very fast, but you 
+  will need to add some logic if you want to interact with your features in the 
+  browser. In this case browser will have no vector data to show any tooltip or 
+  info over your features. You will need to implement a request to your server 
+  like "give me the features in this point where user has clicked".
+*/
+
 const Map = () => {
   const mapRef = useRef(null);
 
@@ -132,6 +150,7 @@ const Map = () => {
           &#10166;
         </button>
         <MapContainer
+          preferCanvas={true}
           center={[mapCenter.lat, mapCenter.lng]}
           className="map"
           scrollWheelZoom={false}
