@@ -4,7 +4,7 @@
 
 2. Clone this project, and once you receive an email containing a link for the Strava Export, download, unzip and then copy the contents of the **activities** directory into the **activities** directory in the root of this project.
 
-3. Run `yarn convert`, which takes all of the GPX files in the **activities** directory, converts them to JSON, and outputs them all in `public/activities.json`.
+3. Run `yarn convert`, which takes all of the GPX & FIT files in the **activities** directory, converts them to JSON, and outputs them to `public/activities.json`.
 
 4. Run `yarn ui-build`, which bundles the frontend javascript, and outputs `public/bundle.js` and `public/bundle.js.map`.
 
