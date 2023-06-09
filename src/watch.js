@@ -9,7 +9,7 @@ server.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
 
-const createBuild = () => {
+function createBuild() {
   build({
     bundle: true,
     entryPoints: ['./src/components/Map.jsx'],
@@ -24,7 +24,7 @@ const createBuild = () => {
     console.log(err);
     process.exit(1);
   });
-};
+}
 
 chokidar
   .watch('./src', {

@@ -11,11 +11,11 @@ module.exports = {
     server.use(compression());
     server.use(express.static(path.join(__dirname, '../public')));
 
-    server.get('/', (req, res) => {
+    server.get('/', (_, res) => {
       res.render('index.html');
     });
 
-    server.get('/activities', (req, res) => {
+    server.get('/activities', (_, res) => {
       res.header('Content-Type', 'application/json');
       res.sendFile(path.join(__dirname, '../public/activities.json'));
     });
